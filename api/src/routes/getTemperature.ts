@@ -1,8 +1,8 @@
 import express from "express";
-import getTempartue from "../controllers/getTempartue";
+import getTemperature from "../controllers/getTemperature";
 
 const router = express.Router();
 
-router.get("/", getTempartue.getTempartue);
+router.get("/", getTemperature.getTemperature);
 
 export default router;
