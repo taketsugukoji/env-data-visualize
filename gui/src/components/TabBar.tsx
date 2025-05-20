@@ -1,18 +1,17 @@
 import { Tabs, Tab } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
 
-const MuiTabBar = () => {
+const TabBar = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // 現在のURLでタブ判定
-  const currentTab = location.pathname.startsWith("/temp/timeSeries")
-    ? "timeSeries"
-    : "temp";
+  const currentTab = location.pathname.startsWith("/temperature/spatial")
+    ? "spatial"
+    : "temporal";
 
   const handleChange = (_: React.SyntheticEvent, newValue: string) => {
-    if (newValue === "temp") navigate("/temp");
-    if (newValue === "timeSeries") navigate("/temp/timeSeries");
+    if (newValue === "spatial") navigate("/temperature/spatial");
+    if (newValue === "temporal") navigate("/temperature/temporal");
   };
 
   return (
@@ -23,10 +22,10 @@ const MuiTabBar = () => {
       indicatorColor="primary"
       centered
     >
-      <Tab label="温度マップ" value="temp" />
-      <Tab label="時系列グラフ" value="timeSeries" />
+      <Tab label="温度マップ" value="spatial" />
+      <Tab label="時系列グラフ" value="temporal" />
     </Tabs>
   );
 };
 
-export default MuiTabBar;
+export default TabBar;

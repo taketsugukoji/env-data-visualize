@@ -8,9 +8,12 @@ function App() {
     <BrowserRouter>
       <TabBar />
       <Routes>
-        <Route path="/" element={<Navigate to="/temp" replace />} />
-        <Route path="/temp" element={<TempSpatialView />} />
-        <Route path="/temp/timeSeries" element={<TempTemporalView />} />
+        <Route
+          path="/"
+          element={<Navigate to="/temperature/spatial" replace />}
+        />
+        <Route path="/temperature/spatial" element={<TempSpatialView />} />
+        <Route path="/temperature/temporal" element={<TempTemporalView />} />
       </Routes>
     </BrowserRouter>
   );

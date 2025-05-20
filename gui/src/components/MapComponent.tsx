@@ -1,6 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import maplibregl, { MapMouseEvent, Map } from "maplibre-gl";
 import { StatsContainedResponse } from "../hooks/UseFetchData.tsx";
+import {
+  maxSeaTemperature,
+  minSeaTemperature,
+} from "../constants/temperature.ts";
 
 type Props = {
   data: StatsContainedResponse | null;
@@ -32,6 +36,11 @@ const MapComponent = ({
     lat: number;
   } | null>(null);
 
+  const selectionSourceId = "selection";
+  const selectionLayerId = "selection-layer";
+  const sstSourceId = "sst";
+  const sstLayerId = "sst-layer";
+
   // 地図初期化
   useEffect(() => {
     if (!mapContainer.current) return;
@@ -47,7 +56,7 @@ const MapComponent = ({
     return () => mapInstance.remove();
   }, []);
 
-  // 矩形選択用イベント
+  // ドラッグ範囲選択用イベント
   useEffect(() => {
     if (!map || !isSelecting) return;
 
@@ -77,8 +86,8 @@ const MapComponent = ({
       map.dragPan.enable();
       map.scrollZoom.enable();
 
-      if (map.getLayer("selection-layer")) map.removeLayer("selection-layer");
-      if (map.getSource("selection")) map.removeSource("selection");
+      if (map.getLayer(selectionLayerId)) map.removeLayer(selectionLayerId);
+      if (map.getSource(selectionSourceId)) map.removeSource(selectionSourceId);
 
       setStartLngLat(null);
       setEndLngLat(null);
@@ -95,7 +104,7 @@ const MapComponent = ({
     };
   }, [map, isSelecting, isDragging, startLngLat]);
 
-  // 矩形の描画
+  // ドラッグ範囲の描画
   useEffect(() => {
     if (!startLngLat || !endLngLat || !map) return;
 
@@ -116,15 +125,15 @@ const MapComponent = ({
       properties: {},
     };
 
-    if (!map.getSource("selection")) {
-      map.addSource("selection", {
+    if (!map.getSource(selectionSourceId)) {
+      map.addSource(selectionSourceId, {
         type: "geojson",
         data: { type: "FeatureCollection", features: [polygon] },
       });
       map.addLayer({
-        id: "selection-layer",
+        id: selectionLayerId,
         type: "line",
-        source: "selection",
+        source: selectionSourceId,
         paint: {
           "line-color": "#ff0000",
           "line-width": 2,
@@ -132,12 +141,19 @@ const MapComponent = ({
         },
       });
     } else {
-      const source = map.getSource("selection") as maplibregl.GeoJSONSource;
+      const source = map.getSource(
+        selectionSourceId,
+      ) as maplibregl.GeoJSONSource;
       source.setData({ type: "FeatureCollection", features: [polygon] });
     }
+
+    return () => {
+      if (map.getLayer(selectionLayerId)) map.removeLayer(selectionLayerId);
+      if (map.getSource(selectionSourceId)) map.removeSource(selectionSourceId);
+    };
   }, [startLngLat, endLngLat, map]);
 
-  // 一点選択イベント
+  // 地点選択イベント
   useEffect(() => {
     if (!map || !isSelectingPoint) return;
 
@@ -148,10 +164,12 @@ const MapComponent = ({
     };
 
     map.on("click", handleClick);
-    return () => map.off("click", handleClick);
+    return () => {
+      map.off("click", handleClick);
+    };
   }, [map, isSelectingPoint]);
 
-  // データ描画（ヒートマップ）
+  // データ描画
   useEffect(() => {
     if (!data || !map) return;
 
@@ -164,39 +182,36 @@ const MapComponent = ({
       })),
     };
 
-    const min = -2; //TODO:何かいいソースあれば代替
-    const max = 35;
-
-    if (!map.getSource("sst-heatmap")) {
-      map.addSource("sst-heatmap", { type: "geojson", data: geojsonData });
+    if (!map.getSource(sstSourceId)) {
+      map.addSource(sstSourceId, { type: "geojson", data: geojsonData });
       map.addLayer({
-        id: "sst-heatmap-layer",
+        id: sstLayerId,
         type: "circle",
-        source: "sst-heatmap",
+        source: sstSourceId,
         paint: {
           "circle-radius": 5,
           "circle-color": [
             "interpolate",
             ["linear"],
             ["get", "temperature"],
-            min,
+            minSeaTemperature,
             "rgba(0, 0, 255, 0)",
-            min + (max - min) * 0.2,
+            minSeaTemperature + (maxSeaTemperature - minSeaTemperature) * 0.2,
             "blue",
-            min + (max - min) * 0.4,
+            minSeaTemperature + (maxSeaTemperature - minSeaTemperature) * 0.4,
             "lime",
-            min + (max - min) * 0.6,
+            minSeaTemperature + (maxSeaTemperature - minSeaTemperature) * 0.6,
             "yellow",
-            min + (max - min) * 0.8,
+            minSeaTemperature + (maxSeaTemperature - minSeaTemperature) * 0.8,
             "orange",
-            max,
+            maxSeaTemperature,
             "red",
           ],
           "circle-opacity": 0.8,
         },
       });
     } else {
-      const source = map.getSource("sst-heatmap") as maplibregl.GeoJSONSource;
+      const source = map.getSource(sstSourceId) as maplibregl.GeoJSONSource;
       source.setData(geojsonData);
     }
   }, [data, map]);
