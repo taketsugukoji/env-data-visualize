@@ -56,7 +56,6 @@ const TempSpatialView = () => {
             <Typography>日付: </Typography>
             <DatePicker
               views={["year", "month"]}
-              label="日付を選んでください"
               minDate={serviceStartedDate}
               maxDate={oneMonthAgo}
               value={date}

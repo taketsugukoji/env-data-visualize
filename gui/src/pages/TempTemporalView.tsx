@@ -39,9 +39,9 @@ const TempTemporalView = () => {
   const [latRange, setLatRange] = useState(defaultLatRangeOfTemporal);
   const [lonRange, setLonRange] = useState(defaultLonRangeOfTemporal);
   const [isSelectingPoint, setIsSelecting] = useState(false);
-  const [chartData, setChartData] = useState<{ name: string; value: number }[]>(
-    [],
-  );
+  const [chartData, setChartData] = useState<
+    { month: string; temperature: number }[]
+  >([]);
 
   const { data, isLoading, error, execute } = useFetchData();
 
@@ -65,10 +65,14 @@ const TempTemporalView = () => {
   useEffect(() => {
     if (!data) return;
     setChartData(
-      data.table.rows.map(([month, , , temp]) => ({
-        name: month,
-        value: temp,
-      })),
+      data.table.rows.map(([month, , , temp]) => {
+        const date = new Date(month);
+        const formattedMonth = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
+        return {
+          month: formattedMonth,
+          temperature: temp,
+        };
+      }),
     );
   }, [data]);
 
@@ -173,32 +177,16 @@ const TempTemporalView = () => {
         setIsSelecting={handleSetIsSelecting}
         setFormPos={handleSetFormPos}
       />
-
-      {data && (
-        <Paper sx={{ p: 2, mt: 4 }}>
-          <Typography>
-            最低水温: {data.stats.minRow[3]}, 緯度: {data.stats.minRow[1]},
-            経度: {data.stats.minRow[2]}
-          </Typography>
-          <Typography>
-            最高水温: {data.stats.maxRow[3]}, 緯度: {data.stats.maxRow[1]},
-            経度: {data.stats.maxRow[2]}
-          </Typography>
-          <Typography>平均値: {data.stats.avg}</Typography>
-          <Typography>中央値: {data.stats.median}</Typography>
-        </Paper>
-      )}
-
       {chartData.length > 0 && (
-        <Box mt={4}>
+        <Box display="flex" flexDirection="column" gap={2} mt={4}>
           <Typography variant="h6">水温の時系列グラフ</Typography>
           <LineChart width={800} height={400} data={chartData}>
             <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-            <XAxis dataKey="name" />
+            <XAxis dataKey="month" />
             <YAxis domain={["dataMin", "dataMax"]} />
             <Tooltip />
             <Legend />
-            <Line type="monotone" dataKey="value" stroke="#8884d8" />
+            <Line type="monotone" dataKey="temperature" stroke="#8884d8" />
           </LineChart>
         </Box>
       )}
