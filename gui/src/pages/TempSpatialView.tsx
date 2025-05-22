@@ -22,6 +22,7 @@ import {
   oneMonthAgo,
   serviceStartedDate,
 } from "../constants/date.ts";
+import StatsInfo from "../components/StatsInfo.tsx";
 
 const TempSpatialView = () => {
   const [date, setDate] = useState<Dayjs>(oneMonthAgo);
@@ -160,23 +161,7 @@ const TempSpatialView = () => {
         setFormPos={handleSetFormPos}
       />
 
-      {data && (
-        <Paper sx={{ p: 3, mt: 4 }} elevation={2}>
-          <Typography variant="h6" gutterBottom>
-            統計情報
-          </Typography>
-          <Typography>
-            最低水温: {data.stats.minRow[3]}℃（緯度: {data.stats.minRow[1]}
-            、経度: {data.stats.minRow[2]}）
-          </Typography>
-          <Typography>
-            最高水温: {data.stats.maxRow[3]}℃（緯度: {data.stats.maxRow[1]}
-            、経度: {data.stats.maxRow[2]}）
-          </Typography>
-          <Typography>平均値: {data.stats.avg}℃</Typography>
-          <Typography>中央値: {data.stats.median}℃</Typography>
-        </Paper>
-      )}
+      {data && <StatsInfo stats={data.stats} />}
     </Box>
   );
 };

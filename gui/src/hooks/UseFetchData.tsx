@@ -18,7 +18,7 @@ export type ERDDAPResponse = {
   };
 };
 
-type Stats = { minRow: Row; maxRow: Row; avg: number; median: number };
+export type Stats = { minRow: Row; maxRow: Row; avg: number; median: number };
 
 export type StatsContainedResponse = {
   table: ERDDAPResponse["table"];

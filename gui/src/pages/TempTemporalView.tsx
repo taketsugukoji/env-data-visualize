@@ -11,15 +11,6 @@ import {
   Paper,
   Alert,
 } from "@mui/material";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-} from "recharts";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { Dayjs } from "dayjs";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -32,6 +23,7 @@ import {
   oneMonthAgo,
   serviceStartedDate,
 } from "../constants/date.ts";
+import TemperatureChart from "../components/TemperatureChart.tsx";
 
 const TempTemporalView = () => {
   const [startDate, setStartDate] = useState<Dayjs>(defaultDateOfTemporal);
@@ -177,19 +169,7 @@ const TempTemporalView = () => {
         setIsSelecting={handleSetIsSelecting}
         setFormPos={handleSetFormPos}
       />
-      {chartData.length > 0 && (
-        <Box display="flex" flexDirection="column" gap={2} mt={4}>
-          <Typography variant="h6">水温の時系列グラフ</Typography>
-          <LineChart width={800} height={400} data={chartData}>
-            <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-            <XAxis dataKey="month" />
-            <YAxis domain={["dataMin", "dataMax"]} />
-            <Tooltip />
-            <Legend />
-            <Line type="monotone" dataKey="temperature" stroke="#8884d8" />
-          </LineChart>
-        </Box>
-      )}
+      {chartData.length > 0 && <TemperatureChart chartData={chartData} />}
     </Box>
   );
 };
