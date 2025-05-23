@@ -19,7 +19,7 @@ const fetchData = async (
       ? `(${dateStartStr})`
       : `(${dateStartStr}):(${dateEndStr})`;
 
-  const ERDDAP_URL = `https://coastwatch.pfeg.noaa.gov/erddap/griddap/NOAA_DHW_monthly.json?sea_surface_temperature[${dateString}][${latString}][${lonString}]`;
+  const ERDDAP_URL = `${erddapUrlPrefix}[${dateString}][${latString}][${lonString}]`;
 
   try {
     const response = await axios.get<ERDDAPResponse>(ERDDAP_URL);
