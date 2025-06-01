@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import TempSpatialView from "./pages/TempSpatialView.tsx";
-import TempTemporalView from "./pages/TempTemporalView.tsx";
+import TempSpatialView from "./views/TempSpatialView.tsx";
+import TempTemporalView from "./views/TempTemporalView.tsx";
 import TabBar from "./components/TabBar.tsx";
 
 function App() {

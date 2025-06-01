@@ -13,7 +13,7 @@ import {
   minSeaTemperature,
 } from "../constants/temperature.ts";
 
-type UseMapLibreProps = {
+export type UseMapLibreProps = {
   data: StatsContainedResponse | null;
   isSelecting: boolean;
   isSelectingPoint: boolean;

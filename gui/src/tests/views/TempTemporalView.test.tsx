@@ -1,10 +1,9 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import TempTemporalView from "../views/TempTemporalView";
-import { vi } from "vitest";
-import { useFetchData } from "../hooks/UseFetchData";
+import TempTemporalView from "../../views/TempTemporalView";
+import { useFetchData } from "../../hooks/UseFetchData";
 
-vi.mock("../hooks/UseFetchData", () => ({
-  useFetchData: vi.fn(),
+jest.mock("../hooks/UseFetchData", () => ({
+  useFetchData: jest.fn(),
 }));
 
 describe("TempTemporalView", () => {
@@ -13,7 +12,7 @@ describe("TempTemporalView", () => {
       data: null,
       isLoading: false,
       error: null,
-      execute: vi.fn(),
+      execute: jest.fn(),
     });
 
     render(<TempTemporalView />);
@@ -25,7 +24,7 @@ describe("TempTemporalView", () => {
       data: null,
       isLoading: false,
       error: null,
-      execute: vi.fn(),
+      execute: jest.fn(),
     });
 
     render(<TempTemporalView />);
