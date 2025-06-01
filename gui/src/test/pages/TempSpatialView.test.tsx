@@ -1,11 +1,10 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import TempSpatialView from "../views/TempSpatialView";
-import { vi } from "vitest";
-import { useFetchData } from "../hooks/UseFetchData";
+import { useFetchData } from "../../hooks/UseFetchData";
+import TempSpatialView from "../../pages/TempSpatialView";
 
 // モックする
-vi.mock("../hooks/UseFetchData", () => ({
-  useFetchData: vi.fn(),
+jest.mock("../../hooks/UseFetchData", () => ({
+  useFetchData: jest.fn(),
 }));
 
 describe("TempSpatialView", () => {
@@ -14,7 +13,7 @@ describe("TempSpatialView", () => {
       data: null,
       isLoading: false,
       error: null,
-      execute: vi.fn(),
+      execute: jest.fn(),
     });
 
     render(<TempSpatialView />);
@@ -26,7 +25,7 @@ describe("TempSpatialView", () => {
       data: null,
       isLoading: false,
       error: null,
-      execute: vi.fn(),
+      execute: jest.fn(),
     });
 
     render(<TempSpatialView />);
@@ -36,7 +35,7 @@ describe("TempSpatialView", () => {
   });
 
   it("データ取得ボタンでexecuteが呼ばれる", () => {
-    const mockExecute = vi.fn();
+    const mockExecute = jest.fn();
     (useFetchData as any).mockReturnValue({
       data: null,
       isLoading: false,
