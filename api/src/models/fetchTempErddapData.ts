@@ -1,7 +1,11 @@
 import axios from "axios";
-import {ERDDAPResponse, Row, StatsContainedResponse} from "../constants/temperature";
-import {analyzeRows} from "../services/analyzeRows";
-
+import {
+  ERDDAPResponse,
+  StatsContainedResponse,
+} from "../constants/temperature";
+import { analyzeRows } from "../services/analyzeRows";
+import { erddapUrlPrefix } from "../constants/erddap";
+import { HttpError } from "../errors/HttpError";
 
 const fetchData = async (
   lat: { start: number; end: number },
@@ -26,14 +30,21 @@ const fetchData = async (
     const data = response.data;
 
     const { rows } = data.table;
-
+    // レスポンスに欠損値が含まれていることがあるため null を除外
+    const nullFilteredRows = rows.filter(([, , , temp]) => temp != null);
 
     return {
-      table: data.table,
-      stats: analyzeRows(rows),
+      table: { ...data.table, rows: nullFilteredRows },
+      stats: analyzeRows(nullFilteredRows),
     };
   } catch (error) {
-    throw error;
+    if (axios.isAxiosError(error) && error.response) {
+      const { status } = error.response;
+      const message = error.response.data?.message || error.message;
+      throw new HttpError(message, status);
+    } else {
+      throw new HttpError("ERDDAPにアクセスできませんでした", 502);
+    }
   }
 };
 

@@ -1,30 +1,19 @@
-import { Row } from "../constants/temperature";
+import { analyzeRows } from "../../services/analyzeRows";
+import { Row } from "../../constants/temperature";
 
-export const analyzeRows = (rows: Row[]) => {
-  // 水温のみ取り出す。欠損値 が含まれていることがあるため null を除外
-  const tempList = rows
-    .filter(([, , , temp]) => temp != null)
-    .map(([, , , temp]) => temp);
+describe("analyzeRows", () => {
+  const rows: Row[] = [
+    ["2024-01-01T00:00:00Z", 0, 0, 10],
+    ["2024-01-01T01:00:00Z", 0, 0, 20],
+    ["2024-01-01T02:00:00Z", 0, 0, 0],
+    ["2024-01-01T03:00:00Z", 0, 0, 30],
+  ];
 
-  const minTemp = Math.min(...tempList);
-  const maxTemp = Math.max(...tempList);
-  const minRow = rows.find(([, , , temp]) => temp === minTemp)!;
-  const maxRow = rows.find(([, , , temp]) => temp === maxTemp)!;
-
-  const avg = tempList.reduce((sum, val) => sum + val, 0) / tempList.length;
-
-  const sortedTempList = [...tempList].sort((a, b) => a - b);
-  const median =
-    tempList.length % 2 === 0
-      ? (sortedTempList[tempList.length / 2 - 1] +
-          sortedTempList[tempList.length / 2]) /
-        2
-      : sortedTempList[Math.floor(tempList.length / 2)];
-
-  return {
-    minRow,
-    maxRow,
-    avg,
-    median,
-  };
-};
+  it("統計値を正しく計算する", () => {
+    const result = analyzeRows(rows);
+    expect(result.minRow[3]).toBe(0);
+    expect(result.maxRow[3]).toBe(30);
+    expect(result.avg).toBe(15);
+    expect(result.median).toBe(15);
+  });
+});
