@@ -2,7 +2,7 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import TempTemporalView from "../../views/TempTemporalView";
 import { useFetchData } from "../../hooks/UseFetchData";
 
-jest.mock("../hooks/UseFetchData", () => ({
+jest.mock("../../hooks/UseFetchData", () => ({
   useFetchData: jest.fn(),
 }));
 

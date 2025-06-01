@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import maplibregl, { Map, MapMouseEvent } from "maplibre-gl";
+import * as maplibregl from "maplibre-gl";
+import { Map, MapMouseEvent } from "maplibre-gl";
 import {
   Feature,
   FeatureCollection,
@@ -8,10 +9,7 @@ import {
   GeoJsonProperties,
 } from "geojson";
 import { StatsContainedResponse } from "./UseFetchData";
-import {
-  maxSeaTemperature,
-  minSeaTemperature,
-} from "../constants/temperature.ts";
+import { maxSeaTemperature, minSeaTemperature } from "../constants/temperature";
 
 export type UseMapLibreProps = {
   data: StatsContainedResponse | null;

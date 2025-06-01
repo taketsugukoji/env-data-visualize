@@ -1,25 +1,13 @@
 import { render } from "@testing-library/react";
 import MapComponent from "../../../src/components/MapComponent";
 import "@testing-library/jest-dom";
+import { useMapLibre } from "../../../src/hooks/UseMapLibre";
 import { StatsContainedResponse } from "../../hooks/UseFetchData";
 
+jest.mock("../../../src/hooks/UseMapLibre", () => ({
+  useMapLibre: jest.fn(),
+}));
 describe("MapComponent", () => {
-  jest.mock("maplibre-gl", () => ({
-    Map: jest.fn().mockImplementation(() => ({
-      on: jest.fn(),
-      remove: jest.fn(),
-      addControl: jest.fn(),
-      addSource: jest.fn(),
-      addLayer: jest.fn(),
-      fitBounds: jest.fn(),
-      getSource: jest.fn().mockReturnValue({ setData: jest.fn() }),
-      project: jest.fn().mockReturnValue({ x: 0, y: 0 }),
-      unproject: jest.fn().mockReturnValue({ lng: 0, lat: 0 }),
-      getCanvas: jest.fn().mockReturnValue({ style: {} }),
-    })),
-    NavigationControl: jest.fn(),
-    AttributionControl: jest.fn(),
-  }));
   const dummySetIsSelecting = jest.fn();
   const dummySetFormPos = jest.fn();
 
@@ -42,8 +30,12 @@ describe("MapComponent", () => {
     },
   };
 
-  afterEach(() => {
+  beforeEach(() => {
     jest.clearAllMocks();
+    // useMapLibreのモックでmapContainerを返すだけにする
+    (useMapLibre as jest.Mock).mockReturnValue({
+      mapContainer: { current: document.createElement("div") },
+    });
   });
 
   it("正常にコンポーネントを描画できている", () => {
@@ -57,6 +49,7 @@ describe("MapComponent", () => {
       />,
     );
     expect(container.firstChild).toBeInTheDocument();
+    expect(useMapLibre).toHaveBeenCalled();
   });
 
   it("データが渡されたとき、useMapLibreが正しいプロップスで呼び出される", () => {
@@ -70,6 +63,12 @@ describe("MapComponent", () => {
       />,
     );
 
-    expect(globalThis.maplibregl.Map).toHaveBeenCalled(); // 初期化されたか確認
+    expect(useMapLibre).toHaveBeenCalledWith({
+      data: dummyData,
+      isSelecting: false,
+      isSelectingPoint: false,
+      setIsSelecting: dummySetIsSelecting,
+      setFormPos: dummySetFormPos,
+    });
   });
 });

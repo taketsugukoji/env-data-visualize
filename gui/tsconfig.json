@@ -7,6 +7,8 @@
   "compilerOptions": {
     "module": "commonjs",
     "jsx": "react-jsx",
-    "types": ["jest", "@testing-library/jest-dom", "node"]
+    "types": ["jest", "@testing-library/jest-dom", "node"],
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
   }
 }

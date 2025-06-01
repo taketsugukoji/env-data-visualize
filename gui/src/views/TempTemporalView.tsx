@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "maplibre-gl/dist/maplibre-gl.css";
-import MapComponent from "../components/MapComponent.tsx";
-import { useFetchData } from "../hooks/UseFetchData.tsx";
+import MapComponent from "../components/MapComponent";
+import { useFetchData } from "../hooks/UseFetchData";
 import {
   Box,
   Button,
@@ -22,8 +22,8 @@ import {
   LatLonRange,
   oneMonthAgo,
   serviceStartedDate,
-} from "../constants/date.ts";
-import TemperatureChart from "../components/TemperatureChart.tsx";
+} from "../constants/date";
+import TemperatureChart from "../components/TemperatureChart";
 
 const TempTemporalView = () => {
   const [startDate, setStartDate] = useState<Dayjs>(defaultDateOfTemporal);
@@ -101,7 +101,7 @@ const TempTemporalView = () => {
         <Box display="flex" alignItems="center" gap={2} mb={2}>
           <Typography>地点: </Typography>
           <Grid container spacing={2} sx={{ mt: 2 }}>
-            <Grid item xs={12} sm={6} md={3}>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
               <TextField
                 fullWidth
                 label="緯度"
@@ -115,7 +115,7 @@ const TempTemporalView = () => {
                 }
               />
             </Grid>
-            <Grid item xs={12} sm={6} md={3}>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
               <TextField
                 fullWidth
                 label="経度"

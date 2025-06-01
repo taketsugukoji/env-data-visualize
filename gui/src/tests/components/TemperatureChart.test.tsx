@@ -1,37 +1,24 @@
 import { render, screen } from "@testing-library/react";
-import TemperatureChart from "../../components/TemperatureChart";
-import "@testing-library/jest-dom";
+import TemperatureChart from "../../../src/components/TemperatureChart";
 
-jest.mock("recharts", () => {
-  const actual = jest.requireActual("recharts");
-
-  // ダミーコンポーネント作成
-  const Dummy = ({ children }: any) => <div>{children}</div>;
-
-  return {
-    __esModule: true,
-    ...actual, // 型を壊さないために本物をベースに
-    LineChart: Dummy,
-    Line: Dummy,
-    XAxis: Dummy,
-    YAxis: Dummy,
-    CartesianGrid: Dummy,
-    Tooltip: Dummy,
-    Legend: Dummy,
-    ResponsiveContainer: Dummy,
-  };
-});
+const mockData = [
+  { month: "Jan", temperature: 18.5 },
+  { month: "Feb", temperature: 19.2 },
+  { month: "Mar", temperature: 20.1 },
+];
 
 describe("TemperatureChart", () => {
-  const sampleData = [
-    { month: "Jan", temperature: 12 },
-    { month: "Feb", temperature: 14 },
-    { month: "Mar", temperature: 16 },
-  ];
-
-  it("renders title and chart", () => {
-    render(<TemperatureChart chartData={sampleData} />);
+  test("タイトルが表示される", () => {
+    render(<TemperatureChart chartData={mockData} />);
     expect(screen.getByText("水温の時系列グラフ")).toBeInTheDocument();
+  });
+  test("グラフが描画されている", () => {
+    render(<TemperatureChart chartData={mockData} />);
+    const svg = document.querySelector("svg");
+    expect(svg).toBeInTheDocument();
+  });
+  test("データが渡されたときにXAxisのラベルが含まれている", () => {
+    render(<TemperatureChart chartData={mockData} />);
     expect(screen.getByText("Jan")).toBeInTheDocument();
     expect(screen.getByText("Feb")).toBeInTheDocument();
     expect(screen.getByText("Mar")).toBeInTheDocument();
