@@ -1,0 +1,41 @@
+import { render, screen, fireEvent } from "@testing-library/react";
+import TempTemporalView from "../views/TempTemporalView";
+import { vi } from "vitest";
+import { useFetchData } from "../hooks/UseFetchData";
+
+vi.mock("../hooks/UseFetchData", () => ({
+  useFetchData: vi.fn(),
+}));
+
+describe("TempTemporalView", () => {
+  it("タイトルが表示される", () => {
+    (useFetchData as any).mockReturnValue({
+      data: null,
+      isLoading: false,
+      error: null,
+      execute: vi.fn(),
+    });
+
+    render(<TempTemporalView />);
+    expect(screen.getByText("海面水温取得（時系列）")).toBeInTheDocument();
+  });
+
+  it("地点選択ボタンを押すとインフォメーションが表示される", () => {
+    (useFetchData as any).mockReturnValue({
+      data: null,
+      isLoading: false,
+      error: null,
+      execute: vi.fn(),
+    });
+
+    render(<TempTemporalView />);
+    const selectBtn = screen.getByText("地点選択する");
+    fireEvent.click(selectBtn);
+
+    expect(
+      screen.getByText(
+        "地図上をクリックして地点選択すると緯度経度が反映されます。",
+      ),
+    ).toBeInTheDocument();
+  });
+});

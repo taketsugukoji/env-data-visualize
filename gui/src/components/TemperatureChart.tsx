@@ -1,12 +1,12 @@
 import { Box, Typography } from "@mui/material";
 import {
-  CartesianGrid,
-  Legend,
-  Line,
   LineChart,
-  Tooltip,
   XAxis,
   YAxis,
+  CartesianGrid,
+  Line,
+  Tooltip,
+  Legend,
 } from "recharts";
 
 type Props = {
