@@ -84,7 +84,7 @@ const TempTemporalView = () => {
               minDate={serviceStartedDate}
               maxDate={oneMonthAgo}
               value={startDate}
-              onChange={(newValue) => setStartDate(newValue)}
+              onChange={(newValue) => setStartDate(newValue as Dayjs)}
             />
             <Typography>〜</Typography>
             <DatePicker
