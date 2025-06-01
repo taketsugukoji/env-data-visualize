@@ -1,5 +1,4 @@
 import { useState } from "react";
-import "maplibre-gl/dist/maplibre-gl.css";
 import MapComponent from "../components/MapComponent";
 import { useFetchData } from "../hooks/UseFetchData";
 import {
@@ -68,54 +67,54 @@ const TempSpatialView = () => {
         <Box display="grid" alignItems="center" gap={2} mb={2}>
           <Typography>範囲: </Typography>
           <Grid container spacing={2} sx={{ mt: 2 }}>
-            <Grid component="div" xs={6} md={3}>
+            <Grid size={{ xs: 6, md: 3 }}>
               <TextField
-                  fullWidth
-                  label="緯度開始"
-                  type="number"
-                  value={latRange.start}
-                  onChange={(e) =>
-                      setLatRange({
-                        ...latRange,
-                        start: parseFloat(e.target.value),
-                      })
-                  }
+                fullWidth
+                label="緯度開始"
+                type="number"
+                value={latRange.start}
+                onChange={(e) =>
+                  setLatRange({
+                    ...latRange,
+                    start: parseFloat(e.target.value),
+                  })
+                }
               />
             </Grid>
-            <Grid component="div" xs={6} md={3}>
+            <Grid size={{ xs: 6, md: 3 }}>
               <TextField
-                  fullWidth
-                  label="緯度終了"
-                  type="number"
-                  value={latRange.end}
-                  onChange={(e) =>
-                      setLatRange({ ...latRange, end: parseFloat(e.target.value) })
-                  }
+                fullWidth
+                label="緯度終了"
+                type="number"
+                value={latRange.end}
+                onChange={(e) =>
+                  setLatRange({ ...latRange, end: parseFloat(e.target.value) })
+                }
               />
             </Grid>
-            <Grid component="div" xs={6} md={3}>
+            <Grid size={{ xs: 6, md: 3 }}>
               <TextField
-                  fullWidth
-                  label="経度開始"
-                  type="number"
-                  value={lonRange.start}
-                  onChange={(e) =>
-                      setLonRange({
-                        ...lonRange,
-                        start: parseFloat(e.target.value),
-                      })
-                  }
+                fullWidth
+                label="経度開始"
+                type="number"
+                value={lonRange.start}
+                onChange={(e) =>
+                  setLonRange({
+                    ...lonRange,
+                    start: parseFloat(e.target.value),
+                  })
+                }
               />
             </Grid>
-            <Grid component="div" xs={6} md={3}>
+            <Grid size={{ xs: 6, md: 3 }}>
               <TextField
-                  fullWidth
-                  label="経度終了"
-                  type="number"
-                  value={lonRange.end}
-                  onChange={(e) =>
-                      setLonRange({ ...lonRange, end: parseFloat(e.target.value) })
-                  }
+                fullWidth
+                label="経度終了"
+                type="number"
+                value={lonRange.end}
+                onChange={(e) =>
+                  setLonRange({ ...lonRange, end: parseFloat(e.target.value) })
+                }
               />
             </Grid>
           </Grid>

@@ -1,13 +1,8 @@
 import { Box, Typography } from "@mui/material";
-import {
-  CartesianGrid,
-  Legend,
-  Line,
-  LineChart,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
+
+const Recharts = require("recharts");
+const { LineChart, XAxis, YAxis, CartesianGrid, Line, Tooltip, Legend } =
+  Recharts;
 
 type Props = {
   chartData: { month: string; temperature: number }[];

@@ -2,7 +2,6 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { useFetchData } from "../../hooks/UseFetchData";
 import TempSpatialView from "../../views/TempSpatialView";
 
-// モックする
 jest.mock("../../hooks/UseFetchData", () => ({
   useFetchData: jest.fn(),
 }));
