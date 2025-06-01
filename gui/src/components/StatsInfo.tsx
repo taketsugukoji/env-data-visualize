@@ -1,5 +1,5 @@
 import { Paper, Typography } from "@mui/material";
-import { Stats } from "../hooks/UseFetchData.tsx";
+import { Stats } from "../hooks/UseFetchData";
 
 type Props = {
   stats: Stats;
