@@ -56,7 +56,9 @@ describe("fetchTempErddapData", () => {
   });
 
   it("ERDDAPが404を返したらHttpError(404)を投げる", async () => {
-    (axios.isAxiosError as unknown as jest.Mock).mockImplementation((e) => e.isAxiosError === true);
+    (axios.isAxiosError as unknown as jest.Mock).mockImplementation(
+      (e) => e.isAxiosError === true,
+    );
     const error = {
       isAxiosError: true,
       response: {
@@ -71,7 +73,7 @@ describe("fetchTempErddapData", () => {
     mockedAxios.get.mockRejectedValue(error);
 
     await expect(
-        fetchTempErddapData.fetchData(lat, lon, date),
+      fetchTempErddapData.fetchData(lat, lon, date),
     ).rejects.toThrowError("Not Found");
   });
 

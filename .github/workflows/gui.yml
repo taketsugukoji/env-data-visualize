@@ -1,10 +1,14 @@
-name: Lint and Format GUI
+name: GUI CI
 
 on: [push]
 
 jobs:
-  lint:
+  lint-format-test:
     runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./gui
 
     steps:
       - uses: actions/checkout@v3
@@ -14,13 +18,13 @@ jobs:
         with:
           node-version: 18
       - name: Install dependencies
-        working-directory: gui
         run: npm ci
 
       - name: Run ESLint
-        working-directory: gui
         run: npm run lint
 
       - name: Run Prettier Check
-        working-directory: gui
         run: npm run format
+
+      - name: Run Unit Tests
+        run: npm run test

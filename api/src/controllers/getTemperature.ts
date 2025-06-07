@@ -39,7 +39,7 @@ const getTemperature = async (req: Request, res: Response): Promise<void> => {
 
     const data = await fetchTempErddapData.fetchData(lat, lon, date);
     res.json(data);
-  } catch (error: any) {
+  } catch (error) {
     if (error instanceof HttpError) {
       res.status(error.status).json({ error: error.message });
     } else {

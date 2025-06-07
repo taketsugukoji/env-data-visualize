@@ -1,32 +1,22 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import TempTemporalView from "../../views/TempTemporalView";
-import { useFetchData } from "../../hooks/UseFetchData";
 
 jest.mock("../../hooks/UseFetchData", () => ({
-  useFetchData: jest.fn(),
+  useFetchData: jest.fn().mockReturnValue({
+    data: null,
+    isLoading: false,
+    error: null,
+    execute: jest.fn(),
+  }),
 }));
 
 describe("TempTemporalView", () => {
   it("タイトルが表示される", () => {
-    (useFetchData as any).mockReturnValue({
-      data: null,
-      isLoading: false,
-      error: null,
-      execute: jest.fn(),
-    });
-
     render(<TempTemporalView />);
     expect(screen.getByText("海面水温取得（時系列）")).toBeInTheDocument();
   });
 
   it("地点選択ボタンを押すとインフォメーションが表示される", () => {
-    (useFetchData as any).mockReturnValue({
-      data: null,
-      isLoading: false,
-      error: null,
-      execute: jest.fn(),
-    });
-
     render(<TempTemporalView />);
     const selectBtn = screen.getByText("地点選択する");
     fireEvent.click(selectBtn);

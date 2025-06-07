@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { DateRange, LatLonRange } from "../constants/date.ts";
+import { DateRange, LatLonRange } from "../constants/date";
 
 export interface FetchDataArgs {
   lat: LatLonRange;
