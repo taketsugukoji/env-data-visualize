@@ -1,10 +1,14 @@
-name: Lint and Format API
+name: API CI
 
 on: [push]
 
 jobs:
-  lint:
+  lint-format-test:
     runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./api
 
     steps:
       - uses: actions/checkout@v3
@@ -14,13 +18,13 @@ jobs:
         with:
           node-version: 18
       - name: Install dependencies
-        working-directory: api
         run: npm ci
 
       - name: Run ESLint
-        working-directory: api
         run: npm run lint
 
       - name: Run Prettier Check
-        working-directory: api
         run: npm run format
+
+      - name: Run Unit Tests
+        run: npm run test

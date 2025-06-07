@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const Recharts = require("recharts");
 const { LineChart, XAxis, YAxis, CartesianGrid, Line, Tooltip, Legend } =
   Recharts;
