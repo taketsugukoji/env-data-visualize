@@ -79,6 +79,8 @@ npm worktree を使用しているため、プロジェクトルートで以下�
 npm install
 npm run dev
 ```
+バックエンドは `http://localhost:3000`、フロントエンドは `http://localhost:5173/` で起動します。
+
 また、個別で立ち上げたい場合は以下のように実行してください。
 
 ### バックエンド（APIサーバー）の起動
